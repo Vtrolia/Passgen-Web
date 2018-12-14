@@ -1,4 +1,43 @@
 <!DOCTYPE html>
 <html>
-
+    <head>
+        <meta charset="utf-8" lang=en>
+        <title>Passgen Passord Manager</title>
+        <script src="../js/main.js"></script>
+        <link rel=stylesheet type="text/css" href="../style/styles.css">
+    </head>
+    <body>
+        <div id="form">
+            <div>Enter your login key: </div>
+            <input type="password" name="key" id="key">
+            <button onlick="authenticate()">Sign In</button>
+        </div>
+        
+        <div id="lister">
+            <button onclick="register()">Add New</button>
+            <table>
+                <tr>
+                    <th>Site</th>
+                    <th>Username</th>
+                    <th>Passsord</th>
+                    <th>Go there!</th>
+                </tr>
+            </table>
+        </div>
+        <div id="register">
+            <label>
+                What website?
+                <input type="text" id="url" placeholder="www.example.com">
+            </label>
+            <label>
+                Username:
+                <input type="text" id="username" placeholder="your username(for this site)">
+            </label>
+            <label>
+                Password
+                <input type=password id="password" placeholder="your password(for this site)">
+            </label>
+            <button onclick="submit()">Submit</button>
+        </div>
+    </body>
 </html>

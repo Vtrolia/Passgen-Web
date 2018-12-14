@@ -1,0 +1,14 @@
+{
+    "manifest_version": 2,
+    "name": "Passgen Web",
+    "version": "0.1",
+    
+    "default_locale": "en",
+    "description": "I don't trust third party companies with all of my passwords, so I developed my own password manager. Only stores passwords locally and they are encrypted with your login key.",
+    "icons": "logo.png",
+    
+    "browser_action": {
+        "default_popup": "html/popup.html",
+        "default_title": "do you want to login to this site?"
+    }
+}
