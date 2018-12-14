@@ -3,12 +3,35 @@
     "name": "Passgen Web",
     "version": "0.1",
     
-    "default_locale": "en",
     "description": "I don't trust third party companies with all of my passwords, so I developed my own password manager. Only stores passwords locally and they are encrypted with your login key.",
-    "icons": "logo.png",
     
     "browser_action": {
         "default_popup": "html/popup.html",
         "default_title": "do you want to login to this site?"
-    }
+    },
+    
+    // need permission to store info and enter data into tabs, often creating new ones
+    "permissions": [
+        "tabs",
+        "active tab",
+        "storage"
+    ],
+    
+    // listen for a user click
+    "background": {
+        "scripts": ["js/listeners.js"],
+        "persistent": false
+    },
+    
+    // this should be useable on any website
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["js/logger.js"]
+        }
+    ],
+    
+    // no reason to use passwords on websites you can't reach right?
+    "offline_enabled": false
+    
 }
