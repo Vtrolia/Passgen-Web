@@ -3,18 +3,19 @@
     <head>
         <meta charset="utf-8" lang=en>
         <title>Passgen Password Manager</title>
-        <script src="../js/main.js"></script>
+        <script src="../js/main.js">
+        </script>
         <link rel=stylesheet type="text/css" href="../style/styles.css">
     </head>
-    <body>
+    <body align=center>
         <div id="form">
             <div>Enter your login key: </div>
             <input type="password" name="key" id="key">
-            <button onlick="authenticate()">Sign In</button>
+            <button id="auth">Sign In</button>
         </div>
         
         <div id="lister">
-            <button onclick="register()">Add New</button>
+            <button id="reg">Add New</button>
             <table>
                 <tr>
                     <th>Site</th>
@@ -37,7 +38,7 @@
                 Password
                 <input type=password id="password" placeholder="your password(for this site)">
             </label>
-            <button onclick="submit()">Submit</button>
+            <button id="sub">Submit</button>
         </div>
     </body>
 </html>
