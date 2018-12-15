@@ -4,7 +4,7 @@
 
 body {
     background-color: rgb(219, 0, 0);
-    font-family: "Lucida Console";
+    font-family: "Courier New";
     font-size: 1.5em; 
     color: rgb(195, 202, 216);
     height: 200px;
@@ -18,4 +18,73 @@ body {
 
 #form input {
     margin-right: 1em;
+}
+
+#lister {
+    font-size: .6em;
+    height: 300px;
+    width: 500px;
+}
+
+#wrapper {
+    max-height: 250px;
+    overflow-y: scroll;
+}
+
+table {
+    color: black;
+    background-color: whitesmoke;
+    border: 1px solid black;
+    min-width: 300px;
+    max-width: 300px;
+    font-size: .9em;
+    border-collapse: collapse;
+    overflow: scroll;
+}
+
+th {
+    background-color: rgb(171, 177, 188);
+    padding: .3em;
+}
+
+td, th{
+    border: 1px solid black;
+    max-width: 60px;
+    overflow: scroll;
+}
+
+#reg {
+    position: fixed;
+    right: 40%;
+    margin-top: 10px;
+}
+
+#warning {
+    position: static;
+    left: 0%;
+    color: black;
+    font-size: .9em;
+}
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+
+label {
+    font-size: .7em;
+    padding-top: .5em;
+    float: left;
+}
+
+label input {
+    float: right;
+    margin-left: 3em;
+}
+
+.close {
+    margin-left: 7.6em;
+}
+
+#sub {
+    margin-top: 6em;
 }

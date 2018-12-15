@@ -3,8 +3,7 @@
     <head>
         <meta charset="utf-8" lang=en>
         <title>Passgen Password Manager</title>
-        <script src="../js/main.js">
-        </script>
+        <script src="../js/main.js"></script>
         <link rel=stylesheet type="text/css" href="../style/styles.css">
     </head>
     <body align=center>
@@ -14,29 +13,30 @@
             <button id="auth">Sign In</button>
         </div>
         
-        <div id="lister">
-            <button id="reg">Add New</button>
+        <div align=left id="lister">
+            <div id="wrapper">
             <table>
                 <tr>
                     <th>Site</th>
                     <th>Username</th>
-                    <th>Passsord</th>
-                    <th>Go there!</th>
+                    <th>Password</th>
                 </tr>
             </table>
+            </div>
+            <button id="reg">Add New</button>
         </div>
         <div id="register">
             <label>
                 What website?
-                <input type="text" id="url" placeholder="www.example.com">
+                <input type="text" id="url" placeholder="amazon">
             </label>
             <label>
-                Username:
-                <input type="text" id="username" placeholder="your username(for this site)">
+                Username
+                <input type="text" class="close" id="username" placeholder="your username(for this site)">
             </label>
             <label>
                 Password
-                <input type=password id="password" placeholder="your password(for this site)">
+                <input type=password class="close" id="password" placeholder="your password(for this site)">
             </label>
             <button id="sub">Submit</button>
         </div>
