@@ -252,7 +252,10 @@ function troliAlgorithm(salt, word) {
         if (password[i] === '`') {
             password[i] = asciiLet[Math.floor(Math.random() * asciiLet.length)];
         }
-        password[i] = password[i].toString();
+        try{
+            password[i] = password[i].toString();
+        }
+        catch{continue;}
     }
     
     // join the array into one string and return it
