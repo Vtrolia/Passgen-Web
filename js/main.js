@@ -76,7 +76,6 @@ function submit() {
     // get the fields the user filled in
     var name = document.getElementById("url");
     var user = document.getElementById("username");
-    var password = document.getElementById("password");
     
     // if the name is blank, send the user back
     if(!name) {authenticate();}
@@ -93,7 +92,7 @@ function submit() {
     // add the entry to the JSON object stored on the user's computer
     storedPasswords[name.value] = {
         "username": user.value,
-        "password": password.value,
+        "password": troliAlgorithm(user.value, name.value)
     };
     
     // reset the JSON stored into what we have noe
@@ -103,7 +102,6 @@ function submit() {
     document.getElementById("register").style.display = "None";
     name.value = "";
     user.value = "";
-    password.value = "";
     
     // before, it would just stack the accounts on top of each other, now we delete 
     // all the previous entries so it can stack again. 
@@ -114,4 +112,149 @@ function submit() {
     
     // redraw
     authenticate();
+}
+
+/*
+ * This function is a port of the same password generator algorithm I used in the 
+ * python desktop version, the first program I ever made. The program's original name
+ * is where Passgen Web gets its name from. Instead of being an awful looking GUI
+ * program that needs a python runtime, I figured turning this into a password manager
+ * would make it more useful.
+ * @param salt: a string
+ * @param word: a string
+ * @returns: a string representing the algorithm's result
+ */
+function troliAlgorithm(salt, word) {
+    // array of 10 values, though the resulting string will be larger
+    password = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    
+    // for a few parts of the array, it chooses a random letter
+    asciiLet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p',
+                 'q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F',
+                 'G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V',
+                 'W','X','Y','Z'];
+    
+    // generates differently depending on whether or not the words are even or odd
+    if (((salt.length + word.length) % 2) === 0) {
+        password[0] = Math.floor((salt.length + word.length) / salt.length);
+        
+        // this will be a two character string
+        if (salt.length < 2 && word.length < 2) {
+            password[1] = salt[password[0]] + word[password[0]];
+        }
+        else {
+            password[1] = salt[0] + word[0];
+        }
+    
+        password[2] = math.abs(salt.length - word.length);
+        
+        // remainder of some simple subtraction, can be negative
+        let temp = password[2];
+        while (temp >= salt.length) {
+            temp -= salt.length;
+        }
+        password[3] = salt[temp];
+        
+        // choose a number between 1 and current milliseconds from the epoch and 
+        // divide it by 1000
+        let d = new Date();
+        password[4] = Math.floor((Math.random() * (d.getTime() - 1) + 1) / 1000);
+        
+        // random letter from ascii letters
+        password[5] = asciiLet[Math.floor(Math.random() * asciiLet.length)];
+        
+        // choose a random number between the lengths of the two words
+        if (word.length > salt.length) {
+            password[6] = Math.floor(Math.random() * 
+                        (((word.length + 1) - salt.length) + salt.length));
+        }
+        else {
+            password[6] = Math.floor(Math.random() * 
+                        (((salt.length + 1) - word.length) + word.length));
+        }
+        
+        // get a char, then get the int code from that char
+        password[7] = String.fromCharCode(password[6] + 95);
+        password[8] = password[7].charCodeAt(0) * password[6];
+        
+        // add some of the characters of the word together
+        password[9] = "";
+        let max = 0;
+        if (salt.length > word.length) {
+            max = word.length;
+        }
+        else {
+            max = salt.length;
+        }
+        for (let i = 0; i < max % 4; i++) {
+            password[9] += salt[i] + word[i];
+        }
+    }
+    
+    else {
+        // random ascii letter
+        password[0] = asciiLet[Math.floor(Math.random() * asciiLet.length)];
+        
+        password[1] = Math.floor((salt.length + word.length) / salt.length);
+        
+        // random letters from both words
+        password[2] = "";
+        let max = 0;
+        if (salt.length > word.length) {
+            max = word.length;
+        }
+        else {
+            max = salt.length;
+        }
+        for (let i = 0; i < max % 4; i++) {
+            password[2] += salt[i] + word[i];
+        }
+        
+        // choose a random number between the lengths of the two words
+        if (word.length > salt.length) {
+            password[3] = Math.floor(Math.random() * 
+                        (((word.length + 1) - salt.length) + salt.length));
+        }
+        else {
+            password[3] = Math.floor(Math.random() * 
+                        (((salt.length + 1) - word.length) + word.length));
+        }
+        
+        // get a character and then the character code
+        password[4] = String.fromCharCode(password[1] + 95);
+        password[5] = password[4].charCodeAt(0) * password[3];
+        
+        // absolute value of difference
+        password[6] = Math.abs(salt.length - word.length);
+        
+        // remainder of some simple subtraction, can be negative
+        let temp = password[6];
+        while (temp >= salt.length) {
+            temp -= salt.length;
+        }
+        password[7] = word[temp];
+        
+        // choose a number between 1 and current milliseconds from the epoch and 
+        // divide it by 1000
+        let d = new Date();
+        password[8] = Math.floor((Math.random() * (d.getTime() - 1) + 1) / 1000);
+        if (salt.length < 1 && word.length < 1) {
+            password[9] = salt[password[0]] + word[password[0]];
+        }
+        else {
+            password[9] = salt[0] + word[0];
+        }
+    }
+    
+    // makes sure to convert each part of the array into a string, and gets rid
+    // of a random bug that sometimes produces the ` character
+    for (let i = 0; i < 10; i++) {
+        if (password[i] === '`') {
+            password[i] = asciiLet[Math.floor(Math.random() * asciiLet.length)];
+        }
+        password[i] = password[i].toString();
+    }
+    
+    // join the array into one string and return it
+    return password.join("");
 }
