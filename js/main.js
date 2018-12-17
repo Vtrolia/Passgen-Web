@@ -146,7 +146,7 @@ function troliAlgorithm(salt, word) {
             password[1] = salt[0] + word[0];
         }
     
-        password[2] = math.abs(salt.length - word.length);
+        password[2] = Math.abs(salt.length - word.length);
         
         // remainder of some simple subtraction, can be negative
         let temp = password[2];
