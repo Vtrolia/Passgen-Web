@@ -87,12 +87,3 @@ label input {
 #sub {
     margin-top: 6em;
 }
-
-#skip {
-    float: right;
-    padding-right: 1em;
-}
-
-#databutton {
-    float: left;
-}
