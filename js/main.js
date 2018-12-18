@@ -77,8 +77,15 @@ function submit() {
     var name = document.getElementById("url");
     var user = document.getElementById("username");
     
-    // if the name is blank, send the user back
-    if(!name) {authenticate();}
+    // if the name is blank or password already exists, send the user back
+    try {
+        if(!name.value || name.value.toLowerCase() in storedPasswords) {
+            alert("You already have this account stored!");
+            resetDisplay();
+            return authenticate();
+        }
+    }
+   catch{}
     
     // reset the table display to normal
     if (document.getElementById("warning")) {
@@ -90,7 +97,7 @@ function submit() {
     if (!storedPasswords) { storedPasswords = {};}
     
     // add the entry to the JSON object stored on the user's computer
-    storedPasswords[name.value] = {
+    storedPasswords[name.value.toLowerCase()] = {
         "username": user.value,
         "password": troliAlgorithm(user.value, name.value)
     };
@@ -99,17 +106,20 @@ function submit() {
     localStorage.setItem(key, JSON.stringify(storedPasswords));
     
     // reset the display
-    document.getElementById("register").style.display = "None";
-    name.value = "";
-    user.value = "";
-    
-    // before, it would just stack the accounts on top of each other, now we delete 
-    // all the previous entries so it can stack again. 
-    var tds = document.querySelectorAll("td");
-    for (let i = 0; i < tds.length; i++) {
-        tds[i].parentElement.removeChild(tds[i]);
+    function resetDisplay() {
+        document.getElementById("register").style.display = "None";
+        name.value = "";
+        user.value = "";
+
+        // before, it would just stack the accounts on top of each other, now we 
+        // delete all the previous entries so it can stack again. 
+        var tds = document.querySelectorAll("td");
+        for (let i = 0; i < tds.length; i++) {
+            tds[i].parentElement.removeChild(tds[i]);
+        }
     }
-    
+    resetDisplay();
+
     // redraw
     authenticate();
 }
