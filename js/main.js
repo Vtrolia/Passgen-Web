@@ -2,7 +2,7 @@
  * buttons in the html files is not allowed, so when the popup is loaded, add it with 
  * Javascript.
  */
-window.onload = () => {
+window.onload = function (){
     var authButton = document.getElementById("auth");
     auth.onclick = authenticate;
     
@@ -12,6 +12,11 @@ window.onload = () => {
     var sub = document.getElementById("sub");
     sub.onclick = submit;
     
+    
+}
+
+
+function goToSitePage(row) {
     
 }
 
@@ -44,11 +49,17 @@ function authenticate() {
     // for each password in this user, show them their username and their password 
     for (let key in storedPasswords) {
         if (storedPasswords.hasOwnProperty(key)) {
-            table.innerHTML += "<tr>" +
+            table.innerHTML += "<tr class='selectable'>" +
             "<td>" + key + "</td>" +
             "<td>" + storedPasswords[key]["username"] + "</td>" +
             "<td>" + storedPasswords[key]['password']+ "</td>";
         }
+    }
+    
+    var rows = document.querySelectorAll(".selectable");
+    for (let i = 0; i < rows.length; i++){
+        console.log("did some shit");
+        rows.item(i).addEventListener("click", function() {goToSitePage(rows.item(i));});
     }
     
     // if this is a new key, give them a warning and let them set up their passwords
