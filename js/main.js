@@ -15,12 +15,22 @@ window.onload = function (){
     
 }
 
-
+/*
+ * This funxtion is for when a user has picked a specific site they want to visit and
+ * takes the values already loaded from storage and displays it to them. They can't
+ * change values from the site screen, but they will have the chance to change them 
+ * through the options on that screen.
+ * @param row: the row that was clicked, it passes itself into this function upon
+ * the user clicking it
+ */
 function goToSitePage(row) {
+    // get the site div and load the values into it
     var site = document.getElementById("sitePage");
     site.querySelector("#siteTitle").innerHTML = row.querySelector(".name").innerHTML
     site.querySelector("#siteUser").value = row.querySelector(".user").innerHTML;
     site.querySelector("#sitePass").value = row.querySelector(".pass").innerHTML;
+    
+    // change which div is displayed to the user
     document.getElementById("lister").style.display = "none";
     document.getElementById("sitePage").style.display = "block";
 }
@@ -61,6 +71,8 @@ function authenticate() {
         }
     }
     
+    // each row needs to be clickable to go to the site's page that gives the user 
+    // more options
     var rows = document.querySelectorAll(".selectable");
     for (let i = 0; i < rows.length; i++){
         rows.item(i).addEventListener("click", function() {goToSitePage(rows.item(i));});
