@@ -92,3 +92,29 @@ label input {
 #sub {
     margin-top: 6em;
 }
+
+#siteTitle {
+    padding-bottom: 1.5em;
+}
+
+#buttonRow {
+    margin-top: 5em;
+}
+
+#back {
+    float: left;
+    position: fixed;
+    left: 0%;
+    background-color: rgb(219, 0, 0);
+    border: 0;
+}
+
+#back:hover {
+    cursor:pointer;
+    
+}
+
+#back img:hover {
+    width: 34px;
+    height: 34px;
+}

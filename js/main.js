@@ -17,7 +17,12 @@ window.onload = function (){
 
 
 function goToSitePage(row) {
-    
+    var site = document.getElementById("sitePage");
+    site.querySelector("#siteTitle").innerHTML = row.querySelector(".name").innerHTML
+    site.querySelector("#siteUser").value = row.querySelector(".user").innerHTML;
+    site.querySelector("#sitePass").value = row.querySelector(".pass").innerHTML;
+    document.getElementById("lister").style.display = "none";
+    document.getElementById("sitePage").style.display = "block";
 }
 
 // constants we need to keep track of
@@ -50,15 +55,14 @@ function authenticate() {
     for (let key in storedPasswords) {
         if (storedPasswords.hasOwnProperty(key)) {
             table.innerHTML += "<tr class='selectable'>" +
-            "<td>" + key + "</td>" +
-            "<td>" + storedPasswords[key]["username"] + "</td>" +
-            "<td>" + storedPasswords[key]['password']+ "</td>";
+            "<td class='name'>" + key + "</td>" +
+            "<td class='user'>" + storedPasswords[key]["username"] + "</td>" +
+            "<td class='pass'>" + storedPasswords[key]['password']+ "</td>";
         }
     }
     
     var rows = document.querySelectorAll(".selectable");
     for (let i = 0; i < rows.length; i++){
-        console.log("did some shit");
         rows.item(i).addEventListener("click", function() {goToSitePage(rows.item(i));});
     }
     
