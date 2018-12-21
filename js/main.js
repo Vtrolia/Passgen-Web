@@ -21,6 +21,9 @@ window.onload = function (){
     var rem = document.getElementById("remove");
     rem.onclick = remover;
     
+    var go = document.getElementById("goto");
+    goto.onclick = goToSite;
+    
 }
 
 
@@ -201,6 +204,28 @@ function remover () {
     resetDisplay();
     authenticate();
 }
+
+
+/*
+ * In order to launch a new login for a site, the popup needs to communicate with the
+ * scripts running in the background. Chrome's runtime API allows main.js to send
+ * the url of the website, the user's username and their password.
+ */
+function goToSite() {
+    chrome.runtime.sendMessage({
+        url: parseURL(document.getElementById("siteTitle").innerHTML),
+        username: document.getElementById("siteUser").value,
+        password: document.getElementById("sitePass").value
+    },
+                               
+    // if there is an error with logging the user in, the background script will send
+    // a message back. So, display that message then send user back to lister screen
+    (message) => {
+        alert(message);
+        goBack();
+    });
+}
+
 
 
 /*
