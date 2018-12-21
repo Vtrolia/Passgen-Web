@@ -166,6 +166,7 @@ function goToSitePage(row) {
 }
 
 
+// returns from a site's page back to the screen that lists all their accounts
 function goBack() {
     document.getElementById("sitePage").style.display = "none";
     resetDisplay();
@@ -173,6 +174,11 @@ function goBack() {
 }
 
 
+/*
+ * Computes a new password for the user's account. If you notice, it calls the 
+ * troliAlgorithm twice. Then it sets the password displayed on the sitepage and
+ * the one stored in localStorage is changed to the current value
+ */
 function reset() {
     var password = troliAlgorithm(document.getElementById("sitePass").value, 
                                   document.getElementById("siteUser").value);
@@ -184,6 +190,10 @@ function reset() {
 }
 
 
+/*
+ * Takes the site being currently displayed and deletes its entry in the user's
+ * saved entries then brings them back to the list screen.
+ */
 function remover () {
     delete storedPasswords[document.getElementById("siteTitle").innerHTML];
     document.getElementById("sitePage").style.display = "None";
