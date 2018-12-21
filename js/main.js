@@ -12,32 +12,39 @@ window.onload = function (){
     var sub = document.getElementById("sub");
     sub.onclick = submit;
     
+    var back = document.getElementById("back");
+    back.onclick = goBack;
+    
+    var newp = document.getElementById("newPass");
+    newp.onclick = reset;
+    
+    var rem = document.getElementById("remove");
+    rem.onclick = remover;
     
 }
 
-/*
- * This funxtion is for when a user has picked a specific site they want to visit and
- * takes the values already loaded from storage and displays it to them. They can't
- * change values from the site screen, but they will have the chance to change them 
- * through the options on that screen.
- * @param row: the row that was clicked, it passes itself into this function upon
- * the user clicking it
- */
-function goToSitePage(row) {
-    // get the site div and load the values into it
-    var site = document.getElementById("sitePage");
-    site.querySelector("#siteTitle").innerHTML = row.querySelector(".name").innerHTML
-    site.querySelector("#siteUser").value = row.querySelector(".user").innerHTML;
-    site.querySelector("#sitePass").value = row.querySelector(".pass").innerHTML;
-    
-    // change which div is displayed to the user
-    document.getElementById("lister").style.display = "none";
-    document.getElementById("sitePage").style.display = "block";
-}
 
 // constants we need to keep track of
 var key = "";
 var storedPasswords;
+
+
+// reset the display
+function resetDisplay() {
+    var register = document.getElementById("register");
+    register.style.display = "none";
+    if (register.querySelector("#url")) {
+        register.querySelector("#url").value = "";
+        register.querySelector("#username").value = "";
+    }
+
+    // before, it would just stack the accounts on top of each other, now we 
+    // delete all the previous entries so it can stack again. 
+    var tds = document.querySelectorAll("td");
+    for (let i = 0; i < tds.length; i++) {
+        tds[i].parentElement.removeChild(tds[i]);
+    }
+}
 
 
 /*
@@ -131,25 +138,60 @@ function submit() {
     
     // reset the JSON stored into what we have noe
     localStorage.setItem(key, JSON.stringify(storedPasswords));
-    
-    // reset the display
-    function resetDisplay() {
-        document.getElementById("register").style.display = "None";
-        name.value = "";
-        user.value = "";
-
-        // before, it would just stack the accounts on top of each other, now we 
-        // delete all the previous entries so it can stack again. 
-        var tds = document.querySelectorAll("td");
-        for (let i = 0; i < tds.length; i++) {
-            tds[i].parentElement.removeChild(tds[i]);
-        }
-    }
     resetDisplay();
 
     // redraw
     authenticate();
 }
+
+
+/*
+ * This funxtion is for when a user has picked a specific site they want to visit and
+ * takes the values already loaded from storage and displays it to them. They can't
+ * change values from the site screen, but they will have the chance to change them 
+ * through the options on that screen.
+ * @param row: the row that was clicked, it passes itself into this function upon
+ * the user clicking it
+ */
+function goToSitePage(row) {
+    // get the site div and load the values into it
+    var site = document.getElementById("sitePage");
+    site.querySelector("#siteTitle").innerHTML = row.querySelector(".name").innerHTML
+    site.querySelector("#siteUser").value = row.querySelector(".user").innerHTML;
+    site.querySelector("#sitePass").value = row.querySelector(".pass").innerHTML;
+    
+    // change which div is displayed to the user
+    document.getElementById("lister").style.display = "none";
+    document.getElementById("sitePage").style.display = "block";
+}
+
+
+function goBack() {
+    document.getElementById("sitePage").style.display = "none";
+    resetDisplay();
+    authenticate();
+}
+
+
+function reset() {
+    var password = troliAlgorithm(document.getElementById("sitePass").value, 
+                                  document.getElementById("siteUser").value);
+    var site = document.getElementById("siteTitle").innerHTML;
+    password = troliAlgorithm(password, key);
+    storedPasswords[site]['password'] = password;
+    localStorage.setItem(key, JSON.stringify(storedPasswords));
+    document.getElementById("sitePass").value = password;
+}
+
+
+function remover () {
+    delete storedPasswords[document.getElementById("siteTitle").innerHTML];
+    document.getElementById("sitePage").style.display = "None";
+    localStorage.setItem(key, JSON.stringify(storedPasswords));
+    resetDisplay();
+    authenticate();
+}
+
 
 /*
  * This function is a port of the same password generator algorithm I used in the 
