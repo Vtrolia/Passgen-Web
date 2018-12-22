@@ -177,6 +177,12 @@ function submit() {
     var name = document.getElementById("url");
     var user = document.getElementById("username");
     
+    // if the user left a trailing period, there's a bug where it lets them enter it.
+    // this fixes and removes that trailing period
+    if (name.value[name.value.length - 1] === ".") {
+        name.value = name.value.substring(0, name.value.length - 1);
+    }
+    
     // if the name is blank or password already exists, send the user back
     try {
         if(!name.value || name.value.toLowerCase() in storedPasswords) {
