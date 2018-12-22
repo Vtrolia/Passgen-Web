@@ -24,6 +24,69 @@ window.onload = function (){
     var go = document.getElementById("goto");
     goto.onclick = goToSite;
     
+    // allows user to sign in by pressing enter, instead of having to drag the mouse
+    // to the sign in button, much more intuitive
+    document.getElementById("form").onkeypress = (e) => {
+        if (e.keyCode === 13) {
+            authenticate();
+            return false;
+        }
+    };
+    
+    // in order for the URLs to be parsed and entered correctly, there is a specific
+    // way they need to be formatted and this checks for it, i.e. 'domainname.tld'
+    document.getElementById("url").onkeydown = (e)  => {
+        var urlField = document.getElementById("url");
+        let fieldText = urlField.value;
+        
+        // because many of these options disable the button, this function keeps from
+        // rewriting it over and over
+        function disable() {
+            document.getElementById("sub").disabled = true;
+            urlField.style.borderColor = "red";
+        }
+        
+        // disable if backspace or delete is pressed
+        if(e.keyCode === 8 || e.keyCode === 46) {
+            disable();
+            return true;
+        }
+        
+        // there needs to be at least one period or else it's not the right format
+        if (!fieldText.match(/\./)) {
+            disable();
+            return true;
+        }
+        
+        // if they type 'www.x.com' its invalid, only one period and no slashes
+        if(fieldText.includes("/") || fieldText.match(/\./gi).length > 1) {
+            
+            // check if there are more than 2 words
+            let values = fieldText.split(".");
+            if (values.length != 2) {
+                disable();
+                return true;
+            }
+            
+            // if any part is left null, disable
+            for (let i in values) {
+                if (i.length < 2) {
+                    disable();
+                    return true;
+                }
+            }
+            
+            disable();
+            
+        }
+        
+        // if all tests pass, let them enter
+        else {
+           document.getElementById("sub").disabled = false;
+           urlField.style.borderColor = "lightblue";
+        }
+    };
+    
 }
 
 
@@ -213,7 +276,7 @@ function remover () {
  */
 function goToSite() {
     chrome.runtime.sendMessage({
-        url: parseURL(document.getElementById("siteTitle").innerHTML),
+        url: document.getElementById("siteTitle").innerHTML,
         username: document.getElementById("siteUser").value,
         password: document.getElementById("sitePass").value
     },
