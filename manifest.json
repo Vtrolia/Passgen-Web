@@ -25,7 +25,7 @@
     
     // listen for a user click
     "background": {
-        "scripts": ["js/listeners.js", "js/openpgp.js"],
+        "scripts": ["js/background.js"],
         "persistent": false
     },
     
@@ -33,7 +33,7 @@
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
-            "js": ["js/logger.js", "js/openpgp.js"]
+            "js": ["js/content.js"]
         }
     ],
     

@@ -281,18 +281,18 @@ function remover () {
  * the url of the website, the user's username and their password.
  */
 function goToSite() {
-    chrome.runtime.sendMessage({
-        url: document.getElementById("siteTitle").innerHTML,
-        username: document.getElementById("siteUser").value,
-        password: document.getElementById("sitePass").value
-    },
-                               
-    // if there is an error with logging the user in, the background script will send
-    // a message back. So, display that message then send user back to lister screen
-    (message) => {
-        alert(message);
-        goBack();
+    var connection = chrome.extension.connect({
+        name: "background-script"
     });
+    
+    var message = {
+        "url": "http://www." + document.getElementById("siteTitle").innerHTML,
+        "username": document.getElementById("siteUser").value,
+        "password": document.getElementById("sitePass").value
+    };
+    
+    conection.postMessage(JSON.stringify(message));
+    
 }
 
 
