@@ -281,9 +281,6 @@ function remover () {
  * the url of the website, the user's username and their password.
  */
 function goToSite() {
-    var connection = chrome.extension.connect({
-        name: "background-script"
-    });
     
     var message = {
         "url": "http://www." + document.getElementById("siteTitle").innerHTML,
@@ -291,7 +288,7 @@ function goToSite() {
         "password": document.getElementById("sitePass").value
     };
     
-    conection.postMessage(JSON.stringify(message));
+    chrome.extension.sendMessage(JSON.stringify(message));
     
 }
 
