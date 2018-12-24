@@ -63,6 +63,12 @@ td, th{
     margin-top: 10px;
 }
 
+#add {
+    position: fixed;
+    left: 5%;
+    margin-top: 10px;
+}
+
 #warning {
     position: static;
     left: 0%;

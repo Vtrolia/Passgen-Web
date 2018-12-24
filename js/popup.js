@@ -24,6 +24,9 @@ window.onload = function (){
     var go = document.getElementById("goto");
     goto.onclick = goToSite;
     
+    var adder = document.getElementById("add");
+    adder.onclick = addCurrent;
+    
     // allows user to sign in by pressing enter, instead of having to drag the mouse
     // to the sign in button, much more intuitive
     document.getElementById("form").onkeypress = (e) => {
@@ -218,6 +221,30 @@ function submit() {
 
 
 /*
+ * This lets a user set up a new account for a site on it's login page,
+ * they are supposed to enter a username and a password, then the url is 
+ * sent here from the content script.
+ */
+function addCurrent() {
+    var req = {
+        "type": 2
+    }
+    
+    // background will send a response containing all the info needed
+    chrome.extension.sendMessage(req, (resp) => {
+        var newPass = JSON.parse(resp);
+        storedPasswords[newPass["site"].toLowerCase()] = {
+            "username": newPass["user"],
+            "password": newPass["password"]
+        }
+        
+        // update
+        localStorage.setItem(key, storedPasswords);
+    });
+}
+
+
+/*
  * This funxtion is for when a user has picked a specific site they want to visit and
  * takes the values already loaded from storage and displays it to them. They can't
  * change values from the site screen, but they will have the chance to change them 
@@ -283,6 +310,7 @@ function remover () {
 function goToSite() {
     
     var message = {
+        "type": 1,
         "url": "http://www." + document.getElementById("siteTitle").innerHTML,
         "username": document.getElementById("siteUser").value,
         "password": document.getElementById("sitePass").value
