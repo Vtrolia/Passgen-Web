@@ -159,6 +159,7 @@ function authenticate() {
         document.getElementById("lister").innerHTML += "<div id=\"warning\">No passwords available! add more below!</div>" 
         document.getElementById("reg").style.top = "30%";
         document.getElementById("reg").onclick = register;
+        document.getElementById("add").style.top = "30%";
     }
 }
 
@@ -200,6 +201,7 @@ function submit() {
     if (document.getElementById("warning")) {
         document.getElementById("warning").style.display = "None";
         document.getElementById("reg").style.top = "";
+        document.getElementById("add").style.top = "";
     }
     
     // if passwords is null, create it
