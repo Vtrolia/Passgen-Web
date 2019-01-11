@@ -38,7 +38,7 @@ window.onload = function (){
     
     // in order for the URLs to be parsed and entered correctly, there is a specific
     // way they need to be formatted and this checks for it, i.e. 'domainname.tld'
-    document.getElementById("url").onkeydown = (e)  => {
+    document.getElementById("url").oninput = (e)  => {
         var urlField = document.getElementById("url");
         let fieldText = urlField.value;
         
@@ -180,6 +180,7 @@ function submit() {
     // get the fields the user filled in
     var name = document.getElementById("url");
     var user = document.getElementById("username");
+    var password = document.getElementById("password");
     
     // if the user left a trailing period, there's a bug where it lets them enter it.
     // this fixes and removes that trailing period
@@ -210,7 +211,7 @@ function submit() {
     // add the entry to the JSON object stored on the user's computer
     storedPasswords[name.value.toLowerCase()] = {
         "username": user.value,
-        "password": troliAlgorithm(user.value, name.value)
+        "password": password.value
     };
     
     // reset the JSON stored into what we have noe

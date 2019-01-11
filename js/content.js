@@ -37,12 +37,11 @@ chrome.runtime.onMessage.addListener(
         
         if(!name_to_url[request['url']]) {
             for (let site in labels) {
-                request = new XMLHttpRequest();
                 if (site === "urls") {
                     for (let i = 0; i < site["groups"].length; i++) {
-                        request.open("POST", site["login"] + site["groups"][i], true);
-                        request.send();
-                        
+                        if (urlChecker(request['url'] + site["groups"][i])) {
+                            
+                        }
                     }
                 }
             }
