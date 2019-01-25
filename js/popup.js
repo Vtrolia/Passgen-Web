@@ -314,7 +314,7 @@ function goToSite() {
     
     var message = {
         "type": 1,
-        "url": "http://www." + document.getElementById("siteTitle").innerHTML,
+        "url": "https://www." + document.getElementById("siteTitle").innerHTML,
         "username": document.getElementById("siteUser").value,
         "password": document.getElementById("sitePass").value
     };
